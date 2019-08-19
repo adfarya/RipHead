@@ -1,0 +1,6 @@
+{
+	"name": "ADLS to Blob Copy",
+	"properties": {
+		"annotations": []
+	}
+}
