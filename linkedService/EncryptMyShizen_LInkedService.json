@@ -1,0 +1,10 @@
+{
+	"name": "EncryptMyShizen_LInkedService",
+	"properties": {
+		"annotations": [],
+		"type": "AzureKeyVault",
+		"typeProperties": {
+			"baseUrl": "https://EncryptMyShizen.vault.azure.net/"
+		}
+	}
+}
