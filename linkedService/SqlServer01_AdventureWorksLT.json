@@ -1,12 +1,18 @@
 {
 	"name": "SqlServer01_AdventureWorksLT",
-	"type": "Microsoft.DataFactory/factories/linkedservices",
 	"properties": {
 		"annotations": [],
 		"type": "SqlServer",
 		"typeProperties": {
-			"connectionString": "integrated security=False;data source=aryasql01.database.windows.net;initial catalog=AdventureWorks;user id=ahadmin",
-			"encryptedCredential": "ew0KICAiVmVyc2lvbiI6ICIyMDE3LTExLTMwIiwNCiAgIlByb3RlY3Rpb25Nb2RlIjogIktleSIsDQogICJTZWNyZXRDb250ZW50VHlwZSI6ICJQbGFpbnRleHQiLA0KICAiQ3JlZGVudGlhbElkIjogIkFERlRVVE9SSUFMREFUQUZBQ1RPUllDQlJBUllBXzUxZDE3YWNkLTY1MmEtNGQzYy1hODMxLTdiYjIyMzM5ZmM2YiINCn0="
+			"connectionString": {
+				"type": "AzureKeyVaultSecret",
+				"store": {
+					"referenceName": "EncryptMyShizen_LInkedService",
+					"type": "LinkedServiceReference"
+				},
+				"secretName": "WSPlusMOd5SlqConnectionString"
+			}
 		}
-	}
+	},
+	"type": "Microsoft.DataFactory/factories/linkedservices"
 }
