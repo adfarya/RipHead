@@ -26,6 +26,12 @@
 		"AzureBatch1_accessKey": {
 			"value": ""
 		},
+		"Azure Blob Lab_connectionString": {
+			"value": ""
+		},
+		"SqlServer01_AdventureWorksLT_connectionString": {
+			"value": ""
+		},
 		"AzureDataLakeStore_Source_properties_typeProperties_dataLakeStoreUri": {
 			"value": "https://dflabdatalakestorage.azuredatalakestore.net/webhdfs/v1"
 		},
