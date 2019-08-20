@@ -217,7 +217,14 @@
 			{
 				"name": "Validate Import Rows",
 				"type": "SqlServerStoredProcedure",
-				"dependsOn": [],
+				"dependsOn": [
+					{
+						"activity": "Import CSV",
+						"dependencyConditions": [
+							"Completed"
+						]
+					}
+				],
 				"policy": {
 					"timeout": "7.00:00:00",
 					"retry": 0,
@@ -233,8 +240,86 @@
 					"referenceName": "SqlServer01_AdventureWorksLT",
 					"type": "LinkedServiceReference"
 				}
+			},
+			{
+				"name": "Send Failure Notification",
+				"type": "WebActivity",
+				"dependsOn": [
+					{
+						"activity": "Validate Import Rows",
+						"dependencyConditions": [
+							"Failed"
+						]
+					},
+					{
+						"activity": "Import CSV",
+						"dependencyConditions": [
+							"Failed"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"url": "https://prod-45.eastus2.logic.azure.com:443/workflows/4393cb01f6eb4765b8fe5dc1a4a5a3e9/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=7tviH7lg6kgNp-GDf6M6Jqu1uEQWe8b-FE0NQqrw5tY",
+					"method": "POST",
+					"headers": {
+						"Content-Type": "application/json"
+					},
+					"body": {
+						"DataFactoryName": "@{pipeline().DataFactory}",
+						"PipelineName": "@{pipeline().Pipeline}",
+						"ErrorMessage": "@{activity('Validate Import Rows').error.message}",
+						"EmailTo": "@pipeline().parameters.EmailTo"
+					}
+				}
+			},
+			{
+				"name": "Send Success Notification",
+				"type": "WebActivity",
+				"dependsOn": [
+					{
+						"activity": "Validate Import Rows",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"url": "https://prod-51.eastus2.logic.azure.com:443/workflows/bed31a9aedcc4a38b500d430081fb45d/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=Jj1P3eAiomHfUJvcD4CSCC1hwEfzZKdVOSoVWMIjYos",
+					"method": "POST",
+					"headers": {
+						"Content-Type": "application/json"
+					},
+					"body": {
+						"DataFactoryName": "@{pipeline().DataFactory}",
+						"PipelineName": "@{pipeline().Pipeline}",
+						"ErrorMessage": "",
+						"EmailTo": "@pipeline().parameters.EmailTo"
+					}
+				}
 			}
 		],
+		"parameters": {
+			"EmailTo": {
+				"type": "string",
+				"defaultValue": "arya.hafshejani@gmail.com"
+			}
+		},
 		"annotations": []
 	}
 }
