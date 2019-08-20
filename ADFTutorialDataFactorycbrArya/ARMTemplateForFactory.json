@@ -11,13 +11,13 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'AzStorageStaging'"
 		},
-		"AzureStorageLinkedService_connectionString": {
-			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'AzureStorageLinkedService'"
-		},
 		"Azure Blob Storage_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'Azure Blob Storage'"
+		},
+		"AzureStorageLinkedService_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'AzureStorageLinkedService'"
 		},
 		"HDInsight_clusterPassword": {
 			"type": "secureString",
@@ -30,6 +30,10 @@
 		"HDInsight_servicePrincipalKey": {
 			"type": "secureString",
 			"metadata": "Secure string for 'servicePrincipalKey' of 'HDInsight'"
+		},
+		"AzureBatch1_accessKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accessKey' of 'AzureBatch1'"
 		},
 		"AzureDataLakeStore_Source_properties_typeProperties_dataLakeStoreUri": {
 			"type": "string",
@@ -62,6 +66,14 @@
 		"HDInsight_properties_typeProperties_tenant": {
 			"type": "string",
 			"defaultValue": "b36dfe4e-af11-4db4-a618-6624956cacd3"
+		},
+		"AzureBatch1_properties_typeProperties_accountName": {
+			"type": "string",
+			"defaultValue": "wsplusbthsvc"
+		},
+		"AzureBatch1_properties_typeProperties_batchUri": {
+			"type": "string",
+			"defaultValue": "https://wsplusbthsvc.eastus2.batch.azure.com"
 		}
 	},
 	"variables": {
@@ -271,6 +283,45 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/SourceDataset_vm2')]",
 				"[concat(variables('factoryId'), '/datasets/DestinationDataset_vm2')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Sharky')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Spark1",
+						"type": "HDInsightSpark",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"rootPath": "m03-l01-lab01/spark/script",
+							"entryFilePath": "WordCount_Spark.py",
+							"sparkJobLinkedService": {
+								"referenceName": "Azure Blob Storage",
+								"type": "LinkedServiceReference"
+							}
+						},
+						"linkedServiceName": {
+							"referenceName": "HDInsight",
+							"type": "LinkedServiceReference"
+						}
+					}
+				],
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/Azure Blob Storage')]",
+				"[concat(variables('factoryId'), '/linkedServices/HDInsight')]"
 			]
 		},
 		{
@@ -979,6 +1030,19 @@
 			"dependsOn": []
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/Azure Blob Storage')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureBlobStorage",
+				"typeProperties": {
+					"connectionString": "[parameters('Azure Blob Storage_connectionString')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/AzureDataLakeStore_Source')]",
 			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
@@ -1003,19 +1067,6 @@
 				"type": "AzureBlobStorage",
 				"typeProperties": {
 					"connectionString": "[parameters('AzureStorageLinkedService_connectionString')]"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/Azure Blob Storage')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "AzureBlobStorage",
-				"typeProperties": {
-					"connectionString": "[parameters('Azure Blob Storage_connectionString')]"
 				}
 			},
 			"dependsOn": []
@@ -1072,14 +1123,39 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/Sharky')]",
+			"name": "[concat(parameters('factoryName'), '/AzureBatch1')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureBatch",
+				"typeProperties": {
+					"accountName": "[parameters('AzureBatch1_properties_typeProperties_accountName')]",
+					"accessKey": {
+						"type": "SecureString",
+						"value": "[parameters('AzureBatch1_accessKey')]"
+					},
+					"batchUri": "[parameters('AzureBatch1_properties_typeProperties_batchUri')]",
+					"poolName": "wsplusbthsvcpool1 ",
+					"linkedServiceName": {
+						"referenceName": "AzStorageStaging",
+						"type": "LinkedServiceReference"
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzStorageStaging')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Custom Activity Demo')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"activities": [
 					{
-						"name": "Spark1",
-						"type": "HDInsightSpark",
+						"name": "CustomActivityDemo",
+						"type": "Custom",
 						"dependsOn": [],
 						"policy": {
 							"timeout": "7.00:00:00",
@@ -1090,15 +1166,19 @@
 						},
 						"userProperties": [],
 						"typeProperties": {
-							"rootPath": "m03-l01-lab01/spark/script",
-							"entryFilePath": "WordCount_Spark.py",
-							"sparkJobLinkedService": {
+							"command": "cmd /c echo \"hello world\" > hello.txt",
+							"resourceLinkedService": {
 								"referenceName": "Azure Blob Storage",
 								"type": "LinkedServiceReference"
+							},
+							"folderPath": "m03-l01-lab01",
+							"referenceObjects": {
+								"linkedServices": [],
+								"datasets": []
 							}
 						},
 						"linkedServiceName": {
-							"referenceName": "HDInsight",
+							"referenceName": "AzureBatch1",
 							"type": "LinkedServiceReference"
 						}
 					}
@@ -1106,7 +1186,7 @@
 				"annotations": []
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/HDInsight')]",
+				"[concat(variables('factoryId'), '/linkedServices/AzureBatch1')]",
 				"[concat(variables('factoryId'), '/linkedServices/Azure Blob Storage')]"
 			]
 		}
