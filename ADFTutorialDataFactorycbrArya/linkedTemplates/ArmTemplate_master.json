@@ -11,9 +11,17 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'AzStorageStaging'"
 		},
+		"Azure Blob Lab_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'Azure Blob Lab'"
+		},
 		"Azure Blob Storage_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'Azure Blob Storage'"
+		},
+		"AzureBatch1_accessKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accessKey' of 'AzureBatch1'"
 		},
 		"AzureStorageLinkedService_connectionString": {
 			"type": "secureString",
@@ -31,17 +39,21 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'servicePrincipalKey' of 'HDInsight'"
 		},
-		"AzureBatch1_accessKey": {
-			"type": "secureString",
-			"metadata": "Secure string for 'accessKey' of 'AzureBatch1'"
-		},
-		"Azure Blob Lab_connectionString": {
-			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'Azure Blob Lab'"
-		},
 		"SqlServer01_AdventureWorksLT_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'SqlServer01_AdventureWorksLT'"
+		},
+		"linkedService1_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'linkedService1'"
+		},
+		"AzureBatch1_properties_typeProperties_accountName": {
+			"type": "string",
+			"defaultValue": "wsplusbthsvc"
+		},
+		"AzureBatch1_properties_typeProperties_batchUri": {
+			"type": "string",
+			"defaultValue": "https://wsplusbthsvc.eastus2.batch.azure.com"
 		},
 		"AzureDataLakeStore_Source_properties_typeProperties_dataLakeStoreUri": {
 			"type": "string",
@@ -75,13 +87,20 @@
 			"type": "string",
 			"defaultValue": "b36dfe4e-af11-4db4-a618-6624956cacd3"
 		},
-		"AzureBatch1_properties_typeProperties_accountName": {
+		"integrationRuntimeTutorial_properties_typeProperties_ssisProperties_catalogInfo_catalogServerEndpoint": {
 			"type": "string",
-			"defaultValue": "wsplusbthsvc"
+			"defaultValue": "aryasql01.database.windows.net"
 		},
-		"AzureBatch1_properties_typeProperties_batchUri": {
+		"integrationRuntimeTutorial_properties_typeProperties_ssisProperties_catalogInfo_catalogAdminUserName": {
 			"type": "string",
-			"defaultValue": "https://wsplusbthsvc.eastus2.batch.azure.com"
+			"defaultValue": "ahadmin"
+		},
+		"integrationRuntimeTutorial_properties_typeProperties_ssisProperties_catalogInfo_catalogAdminPassword": {
+			"type": "secureString"
+		},
+		"EncryptMyShizen_LInkedService_properties_typeProperties_baseUrl": {
+			"type": "string",
+			"defaultValue": "https://EncryptMyShizen.vault.azure.net/"
 		},
 		"containerUri": {
 			"type": "string",
@@ -113,17 +132,23 @@
 					"AzStorageStaging_connectionString": {
 						"value": "[parameters('AzStorageStaging_connectionString')]"
 					},
+					"Azure Blob Lab_connectionString": {
+						"value": "[parameters('Azure Blob Lab_connectionString')]"
+					},
 					"Azure Blob Storage_connectionString": {
 						"value": "[parameters('Azure Blob Storage_connectionString')]"
 					},
 					"AzureStorageLinkedService_connectionString": {
 						"value": "[parameters('AzureStorageLinkedService_connectionString')]"
 					},
-					"Azure Blob Lab_connectionString": {
-						"value": "[parameters('Azure Blob Lab_connectionString')]"
-					},
 					"SqlServer01_AdventureWorksLT_connectionString": {
 						"value": "[parameters('SqlServer01_AdventureWorksLT_connectionString')]"
+					},
+					"linkedService1_connectionString": {
+						"value": "[parameters('linkedService1_connectionString')]"
+					},
+					"AzureBatch1_accessKey": {
+						"value": "[parameters('AzureBatch1_accessKey')]"
 					},
 					"HDInsight_clusterPassword": {
 						"value": "[parameters('HDInsight_clusterPassword')]"
@@ -133,9 +158,6 @@
 					},
 					"HDInsight_servicePrincipalKey": {
 						"value": "[parameters('HDInsight_servicePrincipalKey')]"
-					},
-					"AzureBatch1_accessKey": {
-						"value": "[parameters('AzureBatch1_accessKey')]"
 					},
 					"AzureDataLakeStore_Source_properties_typeProperties_dataLakeStoreUri": {
 						"value": "[parameters('AzureDataLakeStore_Source_properties_typeProperties_dataLakeStoreUri')]"
@@ -149,6 +171,24 @@
 					"AzureDataLakeStore_Source_properties_typeProperties_resourceGroupName": {
 						"value": "[parameters('AzureDataLakeStore_Source_properties_typeProperties_resourceGroupName')]"
 					},
+					"integrationRuntimeTutorial_properties_typeProperties_ssisProperties_catalogInfo_catalogServerEndpoint": {
+						"value": "[parameters('integrationRuntimeTutorial_properties_typeProperties_ssisProperties_catalogInfo_catalogServerEndpoint')]"
+					},
+					"integrationRuntimeTutorial_properties_typeProperties_ssisProperties_catalogInfo_catalogAdminUserName": {
+						"value": "[parameters('integrationRuntimeTutorial_properties_typeProperties_ssisProperties_catalogInfo_catalogAdminUserName')]"
+					},
+					"integrationRuntimeTutorial_properties_typeProperties_ssisProperties_catalogInfo_catalogAdminPassword": {
+						"value": "[parameters('integrationRuntimeTutorial_properties_typeProperties_ssisProperties_catalogInfo_catalogAdminPassword')]"
+					},
+					"EncryptMyShizen_LInkedService_properties_typeProperties_baseUrl": {
+						"value": "[parameters('EncryptMyShizen_LInkedService_properties_typeProperties_baseUrl')]"
+					},
+					"AzureBatch1_properties_typeProperties_accountName": {
+						"value": "[parameters('AzureBatch1_properties_typeProperties_accountName')]"
+					},
+					"AzureBatch1_properties_typeProperties_batchUri": {
+						"value": "[parameters('AzureBatch1_properties_typeProperties_batchUri')]"
+					},
 					"HDInsight_properties_typeProperties_hostSubscriptionId": {
 						"value": "[parameters('HDInsight_properties_typeProperties_hostSubscriptionId')]"
 					},
@@ -160,12 +200,6 @@
 					},
 					"HDInsight_properties_typeProperties_tenant": {
 						"value": "[parameters('HDInsight_properties_typeProperties_tenant')]"
-					},
-					"AzureBatch1_properties_typeProperties_accountName": {
-						"value": "[parameters('AzureBatch1_properties_typeProperties_accountName')]"
-					},
-					"AzureBatch1_properties_typeProperties_batchUri": {
-						"value": "[parameters('AzureBatch1_properties_typeProperties_batchUri')]"
 					}
 				}
 			},
