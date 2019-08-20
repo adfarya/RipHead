@@ -321,7 +321,7 @@
 		"parameters": {
 			"EmailTo": {
 				"type": "string",
-				"defaultValue": "arya.hafshejani@gmail.com"
+				"defaultValue": "adfarya@outlook.com"
 			}
 		},
 		"annotations": []
