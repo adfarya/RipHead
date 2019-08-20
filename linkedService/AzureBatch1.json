@@ -7,12 +7,12 @@
 		"typeProperties": {
 			"accountName": "wsplusbthsvc",
 			"batchUri": "https://wsplusbthsvc.eastus2.batch.azure.com",
-			"poolName": "wsplusbthsvcpool1 ",
+			"poolName": "wsplusbthsvcpool1",
 			"linkedServiceName": {
 				"referenceName": "AzStorageStaging",
 				"type": "LinkedServiceReference"
 			},
-			"encryptedCredential": "ew0KICAiVmVyc2lvbiI6ICIyMDE3LTExLTMwIiwNCiAgIlByb3RlY3Rpb25Nb2RlIjogIktleSIsDQogICJTZWNyZXRDb250ZW50VHlwZSI6ICJQbGFpbnRleHQiLA0KICAiQ3JlZGVudGlhbElkIjogIkFERlRVVE9SSUFMREFUQUZBQ1RPUllDQlJBUllBXzQ0MGQxY2YzLTE5NTgtNDgzYi05ZWYyLTA3MDU5MTQ3Y2Q0MyINCn0="
+			"encryptedCredential": "ew0KICAiVmVyc2lvbiI6ICIyMDE3LTExLTMwIiwNCiAgIlByb3RlY3Rpb25Nb2RlIjogIktleSIsDQogICJTZWNyZXRDb250ZW50VHlwZSI6ICJQbGFpbnRleHQiLA0KICAiQ3JlZGVudGlhbElkIjogIkFERlRVVE9SSUFMREFUQUZBQ1RPUllDQlJBUllBXzk3NWEzMzkyLTIzMzUtNGY5Yi04ZDhhLTQzNDM1N2JmNzZkYSINCn0="
 		}
 	}
 }
