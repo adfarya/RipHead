@@ -34,16 +34,6 @@
 						"mappings": [
 							{
 								"source": {
-									"name": "(No column name)",
-									"type": "String"
-								},
-								"sink": {
-									"name": "StagingID",
-									"type": "Int32"
-								}
-							},
-							{
-								"source": {
 									"name": "ProductID",
 									"type": "String"
 								},
@@ -204,7 +194,8 @@
 							},
 							{
 								"source": {
-									"type": "DateTime"
+									"name": "(No column name)",
+									"type": "String"
 								},
 								"sink": {
 									"name": "ModifiedDate",
