@@ -33,12 +33,6 @@
 						"type": "TabularTranslator",
 						"mappings": [
 							{
-								"sink": {
-									"name": "StagingID",
-									"type": "Int32"
-								}
-							},
-							{
 								"source": {
 									"name": "ProductID",
 									"type": "String"
