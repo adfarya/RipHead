@@ -1,0 +1,31 @@
+{
+	"name": "pipeline_importData_control",
+	"properties": {
+		"activities": [
+			{
+				"name": "Lookup Staging Row Count",
+				"type": "Lookup",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "SqlServerSource",
+						"sqlReaderStoredProcedureName": "[SalesLT].[usp_GetRowCountProductStaging]"
+					},
+					"dataset": {
+						"referenceName": "ProductStaging",
+						"type": "DatasetReference"
+					}
+				}
+			}
+		],
+		"annotations": []
+	}
+}
