@@ -11,6 +11,18 @@
 		"AzureStorageLinkedService_connectionString": {
 			"value": ""
 		},
+		"Azure Blob Storage_connectionString": {
+			"value": ""
+		},
+		"HDInsight_clusterPassword": {
+			"value": ""
+		},
+		"HDInsight_clusterSshPassword": {
+			"value": ""
+		},
+		"HDInsight_servicePrincipalKey": {
+			"value": ""
+		},
 		"AzureDataLakeStore_Source_properties_typeProperties_dataLakeStoreUri": {
 			"value": "https://dflabdatalakestorage.azuredatalakestore.net/webhdfs/v1"
 		},
@@ -22,6 +34,18 @@
 		},
 		"AzureDataLakeStore_Source_properties_typeProperties_resourceGroupName": {
 			"value": "cbradfResourceGroup"
+		},
+		"HDInsight_properties_typeProperties_hostSubscriptionId": {
+			"value": "812a97dd-2079-4f0e-afab-b9378e91fc17"
+		},
+		"HDInsight_properties_typeProperties_clusterResourceGroup": {
+			"value": "VstsRG-AdfArya-c8a5"
+		},
+		"HDInsight_properties_typeProperties_servicePrincipalId": {
+			"value": "2807ac6b-f7b0-4307-bd78-fecfdd38675e"
+		},
+		"HDInsight_properties_typeProperties_tenant": {
+			"value": "b36dfe4e-af11-4db4-a618-6624956cacd3"
 		},
 		"containerUri": {
 			"value": ""

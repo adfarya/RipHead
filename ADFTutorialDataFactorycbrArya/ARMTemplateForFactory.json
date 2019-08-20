@@ -15,6 +15,22 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'AzureStorageLinkedService'"
 		},
+		"Azure Blob Storage_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'Azure Blob Storage'"
+		},
+		"HDInsight_clusterPassword": {
+			"type": "secureString",
+			"metadata": "Secure string for 'clusterPassword' of 'HDInsight'"
+		},
+		"HDInsight_clusterSshPassword": {
+			"type": "secureString",
+			"metadata": "Secure string for 'clusterSshPassword' of 'HDInsight'"
+		},
+		"HDInsight_servicePrincipalKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'servicePrincipalKey' of 'HDInsight'"
+		},
 		"AzureDataLakeStore_Source_properties_typeProperties_dataLakeStoreUri": {
 			"type": "string",
 			"defaultValue": "https://dflabdatalakestorage.azuredatalakestore.net/webhdfs/v1"
@@ -30,6 +46,22 @@
 		"AzureDataLakeStore_Source_properties_typeProperties_resourceGroupName": {
 			"type": "string",
 			"defaultValue": "cbradfResourceGroup"
+		},
+		"HDInsight_properties_typeProperties_hostSubscriptionId": {
+			"type": "string",
+			"defaultValue": "812a97dd-2079-4f0e-afab-b9378e91fc17"
+		},
+		"HDInsight_properties_typeProperties_clusterResourceGroup": {
+			"type": "string",
+			"defaultValue": "VstsRG-AdfArya-c8a5"
+		},
+		"HDInsight_properties_typeProperties_servicePrincipalId": {
+			"type": "string",
+			"defaultValue": "2807ac6b-f7b0-4307-bd78-fecfdd38675e"
+		},
+		"HDInsight_properties_typeProperties_tenant": {
+			"type": "string",
+			"defaultValue": "b36dfe4e-af11-4db4-a618-6624956cacd3"
 		}
 	},
 	"variables": {
@@ -974,6 +1006,109 @@
 				}
 			},
 			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Azure Blob Storage')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureBlobStorage",
+				"typeProperties": {
+					"connectionString": "[parameters('Azure Blob Storage_connectionString')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/HDInsight')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "HDInsightOnDemand",
+				"typeProperties": {
+					"clusterType": "spark",
+					"clusterSize": 4,
+					"timeToLive": "00:05:00",
+					"version": "3.6",
+					"hostSubscriptionId": "[parameters('HDInsight_properties_typeProperties_hostSubscriptionId')]",
+					"clusterResourceGroup": "[parameters('HDInsight_properties_typeProperties_clusterResourceGroup')]",
+					"servicePrincipalId": "[parameters('HDInsight_properties_typeProperties_servicePrincipalId')]",
+					"tenant": "[parameters('HDInsight_properties_typeProperties_tenant')]",
+					"clusterNamePrefix": "",
+					"clusterPassword": {
+						"type": "SecureString",
+						"value": "[parameters('HDInsight_clusterPassword')]"
+					},
+					"clusterSshPassword": {
+						"type": "SecureString",
+						"value": "[parameters('HDInsight_clusterSshPassword')]"
+					},
+					"sparkVersion": "",
+					"servicePrincipalKey": {
+						"type": "SecureString",
+						"value": "[parameters('HDInsight_servicePrincipalKey')]"
+					},
+					"additionalLinkedServiceNames": [
+						{
+							"referenceName": "Azure Blob Storage",
+							"type": "LinkedServiceReference"
+						}
+					],
+					"linkedServiceName": {
+						"referenceName": "Azure Blob Storage",
+						"type": "LinkedServiceReference"
+					},
+					"headNodeSize": "",
+					"dataNodeSize": "",
+					"zookeeperNodeSize": "",
+					"subnetName": "",
+					"virtualNetworkId": ""
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/Azure Blob Storage')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Sharky')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Spark1",
+						"type": "HDInsightSpark",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"rootPath": "m03-l01-lab01/spark/script",
+							"entryFilePath": "WordCount_Spark.py",
+							"sparkJobLinkedService": {
+								"referenceName": "Azure Blob Storage",
+								"type": "LinkedServiceReference"
+							}
+						},
+						"linkedServiceName": {
+							"referenceName": "HDInsight",
+							"type": "LinkedServiceReference"
+						}
+					}
+				],
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/HDInsight')]",
+				"[concat(variables('factoryId'), '/linkedServices/Azure Blob Storage')]"
+			]
 		}
 	]
 }
