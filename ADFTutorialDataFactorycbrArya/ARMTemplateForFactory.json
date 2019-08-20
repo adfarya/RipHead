@@ -1467,6 +1467,16 @@
 								"mappings": [
 									{
 										"source": {
+											"name": "(No column name)",
+											"type": "String"
+										},
+										"sink": {
+											"name": "StagingID",
+											"type": "Int32"
+										}
+									},
+									{
+										"source": {
 											"name": "ProductID",
 											"type": "String"
 										},
@@ -1623,6 +1633,15 @@
 										"sink": {
 											"name": "rowguid",
 											"type": "Guid"
+										}
+									},
+									{
+										"source": {
+											"type": "DateTime"
+										},
+										"sink": {
+											"name": "ModifiedDate",
+											"type": "DateTime"
 										}
 									}
 								]
